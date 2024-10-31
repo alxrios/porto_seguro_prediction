@@ -12,7 +12,13 @@ The objective of this document is to explore the dataset from the kaggle competi
 These are all the libraries that must be installed and loaded before executing this notebook.
 
 ```{r}
-library(knitr)
+library(kableExtra)
+```
+Checking if a particular library is actually installed.
+```{r}
+checklib <- installed.packages()
+dim(checklib)
+sum(checklib[, 1] == "kableExtra")
 ```
 
 ### **DATA LOAD**
@@ -33,11 +39,17 @@ dim(porto_train)
 The dataset counts with 595212 rows and 59 columns.\
 Let's get the names of all the columns.
 ```{r}
-#data.frame(index = 1:dim(porto_train)[2], colnames(porto_train))
+names_dt <- data.frame(index = 1:dim(porto_train)[2], colnames(porto_train))
+names_dt[1] <- lapply(names_dt[1], function(x) {
+  cell_spec(x, bold = T, 
+            color = spec_color(x, end = 0.1))
+})
+names_dt[2] <- cell_spec(names_dt[[2]], color = "white", bold = T,
+                      background = spec_color(1:59, end = 0.9, option = "A", direction = -1))
+kbl(names_dt, escape = F, align = "c", caption = "All variable names.") %>%
+  kable_classic("striped", full_width = F)
 ```
-```{r}
-kable(data.frame(index = 1:dim(porto_train)[2], colnames(porto_train)), caption = "All variable names.")
-```
+
 Since the dataset has the missing values codified has "-1" and R uses NA for this, 
 let's change all the -1 to NA.
 For this let's use a new function.
@@ -57,34 +69,49 @@ naConvert("hi")
 naConvert(5)
 naConvert(-1)
 naConvert(-1.5)
-# Test over a vector
+```
+Test over a vector.
+```{r}
 test_sample <- sample(c(1:100, rep(-1, 100)), 25)
 test_sample
 vapply(X = test_sample, FUN = naConvert, FUN.VALUE = numeric(1))
-# Let's take a small sample of the dataset for testing the function
+```
+Let's take a small sample of the dataset for testing the function.
+```{r}
 set.seed(8511)
 porto_sample <- porto_train[sample(1:595212, 100), sample(1:59, 25)]
-# Are observations classified has -1 present in the sample obtained?
+```
+Are observations classified has -1 present in the sample obtained?
+```{r}
 for (i in 1:25) {
   # IF -1's are found, a positive number bigger than zero is returned
   cat("Variable ", names(porto_sample)[i], ":", " ", sum(porto_sample[, i] == -1), "\n", sep = "")
 }
-# Now we know that there are actually observations classified as -1 in the sample
-# let's check again the function
-# First with the variable ps_car_05_cat
+```
+Now we know that there are actually observations classified as -1 in the sample
+let's check again the function
+First with the variable ps_car_05_cat:
+```{r}
 summary(vapply(FUN = naConvert, porto_sample$ps_car_05_cat, FUN.VALUE = numeric(1)))
-# Next with the variable Variable ps_reg_03
+```
+Next with the variable Variable ps_reg_03:
+```{r}
 summary(vapply(FUN = naConvert, porto_sample$ps_reg_03, FUN.VALUE = numeric(1)))
-# Variable Variable ps_car_14
+```
+Variable Variable ps_car_14:
+```{r}
 summary(vapply(FUN = naConvert, porto_sample$ps_car_14, FUN.VALUE = numeric(1)))
-# Variable Variable ps_car_01_cat
+```
+Variable Variable ps_car_01_cat:
+```{r}
 summary(vapply(FUN = naConvert, porto_sample$ps_car_01_cat, FUN.VALUE = numeric(1)))
-# And last variable ps_car_03_cat
+```
+And last variable ps_car_03_cat:
+```{r}
 summary(vapply(FUN = naConvert, porto_sample$ps_car_03_cat, FUN.VALUE = numeric(1)))
-
-# Now let's check which observations have -1's for the whole dataset
-# Also, let's store the names of the variables with -1's and the quantity of them
-# for a future checking
+```
+Now let's check which observations have -1's for the whole dataset. Also, let's store the names of the variables with -1's and the quantity of them for a future checking.
+```{r}
 missingCount <- numeric() # Stores the number of missings found (-1's)
 varpos <- numeric() # Stores the position of that variable in colnames(dataset)
 for (i in colnames(porto_train)) {
@@ -95,32 +122,37 @@ for (i in colnames(porto_train)) {
     varpos <- c(varpos, which(i == colnames(porto_train)))
   }
 }
-# After applying the function naConvert we will check the resulting number of NA's
-# with this results
-
-# Process the change
+```
+After applying the function naConvert we will check the resulting number of NA's with this results./Now let's process the change:
+```{r}
 for (i in colnames(porto_train)) {
   porto_train[, i] <- vapply(X = porto_train[, i], FUN = naConvert, FUN.VALUE = 1)
 }
-# Checking after the conversion
+```
+And let's do the checking after the conversion:
+```{r}
 for (i in colnames(porto_train)) {
   cat("Variable ", i, ":", " ", sum(porto_train[, i] == -1, na.rm = T), "\n", sep = "")
 }
-# A data.frame for checking that the quantity of missing observations is the same
-# before and after applying the function
+```
+It's ok, now there aren't any variables with -1's into them.\
+Now let's create a data.frame for checking that the quantity of missing observations is the same before and after applying the function.
+```{r}
 checkFrame <- data.frame(variable = colnames(porto_train)[varpos], missingBefore = missingCount,
                          missingAfter = rep(0, length(varpos)))
 
 for (i in colnames(porto_train)[varpos]) {
   checkFrame[which(checkFrame$variable == i), "missingAfter"] <- summary(porto_train[, i])[7]
 }
-# Let's add a new row with the totals and a new column with 1 if both columns are equal
-# and 0 otherwise
+```
+Let's add a new row with the totals and a new column with 1 if both columns are equal and 0 otherwise.
+```{r}
 checkFrame[dim(checkFrame)[1] + 1, ] <- c("total", colSums(checkFrame[, c("missingBefore", "missingAfter")]))
 checkFrame$equal <- as.numeric(checkFrame$missingBefore == checkFrame$missingAfter)
 checkFrame
-# A dataframe for checking that the rest of variables remain at zero missings
-# after using the function naConvert
+```
+Let's make also a dataframe for checking that the rest of variables remain at zero missings after using the function naConvert
+```{r}
 checkFrame2 <- data.frame(variable = colnames(porto_train)[-varpos])
 checkComplete <- numeric() # Variable to store the results of checking that no new
 # NA's were introduced

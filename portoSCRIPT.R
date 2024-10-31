@@ -6,6 +6,8 @@
 
 # Necessary libraries will be loaded here:
 
+library(kableExtra)
+
 # Check if a particular package is installed
 
 checklib <- installed.packages()
@@ -29,6 +31,17 @@ names(porto_train)
 table(names(porto_train))
 data.frame(colnames(porto_train))
 data.frame(index = 1:dim(porto_train)[2], colnames(porto_train))
+# Columnames with kableExtra
+names_dt <- data.frame(index = 1:dim(porto_train)[2], colnames(porto_train))
+names_dt[1] <- lapply(names_dt[1], function(x) {
+  cell_spec(x, bold = T, 
+            color = spec_color(x, end = 0.1))
+})
+names_dt[2] <- cell_spec(names_dt[[2]], color = "white", bold = T,
+                         background = spec_color(1:59, end = 0.9, option = "A", direction = -1))
+kbl(names_dt, escape = F, align = "c", caption = "All variable names.") %>%
+  kable_classic("striped", full_width = F)
+
 
 # Since the dataset has the missing values codified has "-1" and R uses NA for this, 
 # let's change all the -1 to NA.
@@ -167,14 +180,15 @@ for (i in colnames(porto_train)[-varpos]) {
 checkFrame2$missingAfter <- checkComplete
 checkFrame2
 
-# Testing kable extra
-vs_dt <- iris[1:10, ]
-vs_dt <- lapply(vs_dt, function(x) {
-  cell_spec(x, bold = T, 
-            color = spec_color(x, end = 0.9),
-            font_size = spec_font_size(x))
-})
-vs_dt[2] <- cell_spec(vs_dt[[2]], color = "white", bold = T,
-                      background = spec_color(1:59, end = 0.9, option = "A", direction = -1))
-kbl(vs_dt, escape = F, align = "c") %>%
-  kable_classic("striped", full_width = F)
+# Trying to print column names in wide format
+
+data.frame(index = 1:dim(porto_train)[2], colnames(porto_train))
+porto_names <- data.frame(index = 1:dim(porto_train)[2], colnames(porto_train))
+namesframe <- data.frame(index = 1:10, colnames = colnames(porto_train)[1:10], index = 11:20, 
+                         colnames = colnames(porto_train)[11:20], index = 21:30, 
+                         colnames = colnames(porto_train)[21:30], index = 31:40,
+                         colnames = colnames(porto_train)[31:40], index = c(41:59, ""), 
+                         colnames = c(colnames(porto_train)[41:59], ""))
+
+namesframe
+

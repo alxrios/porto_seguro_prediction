@@ -1,0 +1,132 @@
+---
+title: "**PORTO SEGURO SAFE DRIVER PREDICTION**"
+output: html_document
+---
+
+### **MAIN OBJECTIVE**
+
+The objective of this document is to explore the dataset from the kaggle competition opened in 2017 by Porto Seguro in Kaggle (<https://www.kaggle.com/competitions/porto-seguro-safe-driver-prediction>). Also is the objective to explore several methods of prediction for target variable.
+
+### **NECESSARY LIBRARIES**
+
+These are all the libraries that must be installed and loaded before executing this notebook.
+
+```{r}
+library(knitr)
+```
+
+### **DATA LOAD**
+
+First let's check which one is the current working directory and change it if necessary to the one where the data is. Next, let's read the train data.
+
+```{r}
+getwd()
+setwd("..") # Moves backwards in the current directory
+setwd("C://Users//riosa//Documents//datasets//porto_seguro_safe_driver_prediction")
+getwd()
+porto_train <- read.csv("train.csv")
+```
+### **EXPLORATORY DATA ANALYSIS**
+```{r}
+dim(porto_train)
+```
+The dataset counts with 595212 rows and 59 columns.\
+Let's get the names of all the columns.
+```{r}
+#data.frame(index = 1:dim(porto_train)[2], colnames(porto_train))
+```
+```{r}
+kable(data.frame(index = 1:dim(porto_train)[2], colnames(porto_train)), caption = "All variable names.")
+```
+Since the dataset has the missing values codified has "-1" and R uses NA for this, 
+let's change all the -1 to NA.
+For this let's use a new function.
+```{r}
+naConvert <- function(value) {
+  # Gets any value and if is equal to -1 returns NA, any other case returns the
+  # same value
+  result <- value
+  if (!is.na(value) & value == -1) {
+    result <- NA
+  }
+  return(result)
+}
+
+# A little testing...
+naConvert("hi")
+naConvert(5)
+naConvert(-1)
+naConvert(-1.5)
+# Test over a vector
+test_sample <- sample(c(1:100, rep(-1, 100)), 25)
+test_sample
+vapply(X = test_sample, FUN = naConvert, FUN.VALUE = numeric(1))
+# Let's take a small sample of the dataset for testing the function
+set.seed(8511)
+porto_sample <- porto_train[sample(1:595212, 100), sample(1:59, 25)]
+# Are observations classified has -1 present in the sample obtained?
+for (i in 1:25) {
+  # IF -1's are found, a positive number bigger than zero is returned
+  cat("Variable ", names(porto_sample)[i], ":", " ", sum(porto_sample[, i] == -1), "\n", sep = "")
+}
+# Now we know that there are actually observations classified as -1 in the sample
+# let's check again the function
+# First with the variable ps_car_05_cat
+summary(vapply(FUN = naConvert, porto_sample$ps_car_05_cat, FUN.VALUE = numeric(1)))
+# Next with the variable Variable ps_reg_03
+summary(vapply(FUN = naConvert, porto_sample$ps_reg_03, FUN.VALUE = numeric(1)))
+# Variable Variable ps_car_14
+summary(vapply(FUN = naConvert, porto_sample$ps_car_14, FUN.VALUE = numeric(1)))
+# Variable Variable ps_car_01_cat
+summary(vapply(FUN = naConvert, porto_sample$ps_car_01_cat, FUN.VALUE = numeric(1)))
+# And last variable ps_car_03_cat
+summary(vapply(FUN = naConvert, porto_sample$ps_car_03_cat, FUN.VALUE = numeric(1)))
+
+# Now let's check which observations have -1's for the whole dataset
+# Also, let's store the names of the variables with -1's and the quantity of them
+# for a future checking
+missingCount <- numeric() # Stores the number of missings found (-1's)
+varpos <- numeric() # Stores the position of that variable in colnames(dataset)
+for (i in colnames(porto_train)) {
+  missingSum <- sum(porto_train[, i] == -1)
+  cat("Variable ", i, ":", " ", missingSum, "\n", sep = "")
+  if (missingSum != 0) {
+    missingCount <- c(missingCount, missingSum)
+    varpos <- c(varpos, which(i == colnames(porto_train)))
+  }
+}
+# After applying the function naConvert we will check the resulting number of NA's
+# with this results
+
+# Process the change
+for (i in colnames(porto_train)) {
+  porto_train[, i] <- vapply(X = porto_train[, i], FUN = naConvert, FUN.VALUE = 1)
+}
+# Checking after the conversion
+for (i in colnames(porto_train)) {
+  cat("Variable ", i, ":", " ", sum(porto_train[, i] == -1, na.rm = T), "\n", sep = "")
+}
+# A data.frame for checking that the quantity of missing observations is the same
+# before and after applying the function
+checkFrame <- data.frame(variable = colnames(porto_train)[varpos], missingBefore = missingCount,
+                         missingAfter = rep(0, length(varpos)))
+
+for (i in colnames(porto_train)[varpos]) {
+  checkFrame[which(checkFrame$variable == i), "missingAfter"] <- summary(porto_train[, i])[7]
+}
+# Let's add a new row with the totals and a new column with 1 if both columns are equal
+# and 0 otherwise
+checkFrame[dim(checkFrame)[1] + 1, ] <- c("total", colSums(checkFrame[, c("missingBefore", "missingAfter")]))
+checkFrame$equal <- as.numeric(checkFrame$missingBefore == checkFrame$missingAfter)
+checkFrame
+# A dataframe for checking that the rest of variables remain at zero missings
+# after using the function naConvert
+checkFrame2 <- data.frame(variable = colnames(porto_train)[-varpos])
+checkComplete <- numeric() # Variable to store the results of checking that no new
+# NA's were introduced
+for (i in colnames(porto_train)[-varpos]) {
+  checkComplete <- c(checkComplete, sum(is.na(porto_train[, i])))
+}
+checkFrame2$missingAfter <- checkComplete
+checkFrame2
+```

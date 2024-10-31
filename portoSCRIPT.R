@@ -6,6 +6,12 @@
 
 # Necessary libraries will be loaded here:
 
+# Check if a particular package is installed
+
+checklib <- installed.packages()
+dim(checklib)
+sum(checklib[, 1] == "kableExtra")
+sum(checklib[, 1] == "knitr")
 
 # The first thing to do will be setting the working enviroment to the one
 # where the data files are.
@@ -43,7 +49,7 @@ naConvert(5)
 naConvert(-1)
 naConvert(-1.5)
 
-vapply(sample(c(1:100, rep(-1, 100)), 25), naConvert, 1)
+vapply(sample(c(1:100, rep(-1, 100)), 25), naConvert, numeric(1))
 test_sample <- sample(c(1:100, rep(-1, 100)), 25)
 test_sample
 vapply(test_sample, naConvert, 1)
@@ -56,7 +62,7 @@ set.seed(rnd_seed)
 set.seed(8511)
 porto_sample <- porto_train[sample(1:595212, 100), sample(1:59, 25)]
 # Are observations classified has -1 present in the sample obtained?
-for (i in 1:10) {
+for (i in 1:25) {
   # IF -1's are found, a positive number bigger than zero is returned
   cat("Variable ", names(porto_sample)[i], ":", " ", sum(porto_sample[, i] == -1), "\n", sep = "")
 }
@@ -68,21 +74,28 @@ summary(vapply(FUN = naConvert, porto_sample$ps_car_05_cat, FUN.VALUE = 1))
 # Next with the variable Variable ps_reg_03
 vapply(FUN = naConvert, porto_sample$ps_reg_03, FUN.VALUE = 1)
 summary(vapply(FUN = naConvert, porto_sample$ps_reg_03, FUN.VALUE = 1))
-# And last with the variable Variable ps_car_14
+# Variable Variable ps_car_14
 vapply(FUN = naConvert, porto_sample$ps_car_14, FUN.VALUE = 1)
 summary(vapply(FUN = naConvert, porto_sample$ps_car_14, FUN.VALUE = 1))
+# Variable Variable ps_car_01_cat
+vapply(FUN = naConvert, porto_sample$ps_car_01_cat, FUN.VALUE = 1)
+summary(vapply(FUN = naConvert, porto_sample$ps_car_01_cat, FUN.VALUE = 1))
+# And last variable ps_car_03_cat
+vapply(FUN = naConvert, porto_sample$ps_car_03_cat, FUN.VALUE = 1)
+summary(vapply(FUN = naConvert, porto_sample$ps_car_03_cat, FUN.VALUE = 1))
+
 
 # Now let's check which observations have -1's for the whole dataset
 # Also, let's store the names of the variables with -1's and the quantity of them
 # for a future checking
-varnames <- character() # Stores the variable names with missings | DELETE
+# varnames <- character() # Stores the variable names with missings | DELETE
 missingCount <- numeric() # Stores the number of missings found (-1's)
 varpos <- numeric() # Stores the position of that variable in colnames(dataset)
 for (i in colnames(porto_train)) {
   missingSum <- sum(porto_train[, i] == -1)
   cat("Variable ", i, ":", " ", missingSum, "\n", sep = "")
   if (missingSum != 0) {
-    varnames <- c(varnames, i)
+    # varnames <- c(varnames, i)
     missingCount <- c(missingCount, missingSum)
     varpos <- c(varpos, which(i == colnames(porto_train)))
   }
@@ -117,10 +130,10 @@ for (i in colnames(porto_train)) {
 
 # A data.frame for checking that the quantity of missing observations is the same
 # before and after applying the function
-checkFrame <- data.frame(variable = varnames, missingBefore = missingCount,
-                         missingAfter = rep(0, length(varnames)))
+checkFrame <- data.frame(variable = colnames(porto_train)[varpos], missingBefore = missingCount,
+                         missingAfter = rep(0, length(varpos)))
 
-for (i in varnames) {
+for (i in colnames(porto_train)[varpos]) {
   checkFrame[which(checkFrame$variable == i), "missingAfter"] <- summary(porto_train[, i])[7]
 }
 checkFrame
@@ -144,5 +157,24 @@ test[-c("setosa 1"), ]
 
 # A dataframe for checking that the rest of variables remain at zero missings
 # after using the function naConvert
-checkFrame2 <- data.frame(variable = colnames(porto_train)[-varpos], )
+checkFrame2 <- data.frame(variable = colnames(porto_train)[-varpos])
 # Varnames aren't needed now since we are storing the posiion names
+checkComplete <- numeric() # Variable to store the results of checking that no new
+# NA's were introduced
+for (i in colnames(porto_train)[-varpos]) {
+  checkComplete <- c(checkComplete, sum(is.na(porto_train[, i])))
+}
+checkFrame2$missingAfter <- checkComplete
+checkFrame2
+
+# Testing kable extra
+vs_dt <- iris[1:10, ]
+vs_dt <- lapply(vs_dt, function(x) {
+  cell_spec(x, bold = T, 
+            color = spec_color(x, end = 0.9),
+            font_size = spec_font_size(x))
+})
+vs_dt[2] <- cell_spec(vs_dt[[2]], color = "white", bold = T,
+                      background = spec_color(1:59, end = 0.9, option = "A", direction = -1))
+kbl(vs_dt, escape = F, align = "c") %>%
+  kable_classic("striped", full_width = F)

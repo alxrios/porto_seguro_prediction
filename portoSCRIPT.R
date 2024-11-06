@@ -6,7 +6,7 @@
 
 # Necessary libraries will be loaded here:
 
-library(kableExtra)
+library(ggplot2)
 
 # Check if a particular package is installed
 
@@ -82,20 +82,20 @@ for (i in 1:25) {
 # Now we know that there are actually observations classified as -1 in the sample
 # let's check again the function
 # First with the variable ps_car_05_cat
-vapply(FUN = naConvert, porto_sample$ps_car_05_cat, FUN.VALUE = 1)
-summary(vapply(FUN = naConvert, porto_sample$ps_car_05_cat, FUN.VALUE = 1))
+vapply(FUN = naConvert, porto_sample$ps_car_05_cat, FUN.VALUE = numeric(1))
+summary(vapply(FUN = naConvert, porto_sample$ps_car_05_cat, FUN.VALUE = (numeric(1))))
 # Next with the variable Variable ps_reg_03
-vapply(FUN = naConvert, porto_sample$ps_reg_03, FUN.VALUE = 1)
-summary(vapply(FUN = naConvert, porto_sample$ps_reg_03, FUN.VALUE = 1))
+vapply(FUN = naConvert, porto_sample$ps_reg_03, FUN.VALUE = numeric(1))
+summary(vapply(FUN = naConvert, porto_sample$ps_reg_03, FUN.VALUE = numeric(1)))
 # Variable Variable ps_car_14
-vapply(FUN = naConvert, porto_sample$ps_car_14, FUN.VALUE = 1)
-summary(vapply(FUN = naConvert, porto_sample$ps_car_14, FUN.VALUE = 1))
+vapply(FUN = naConvert, porto_sample$ps_car_14, FUN.VALUE = numeric(1))
+summary(vapply(FUN = naConvert, porto_sample$ps_car_14, FUN.VALUE = numeric(1)))
 # Variable Variable ps_car_01_cat
-vapply(FUN = naConvert, porto_sample$ps_car_01_cat, FUN.VALUE = 1)
-summary(vapply(FUN = naConvert, porto_sample$ps_car_01_cat, FUN.VALUE = 1))
+vapply(FUN = naConvert, porto_sample$ps_car_01_cat, FUN.VALUE = numeric(1))
+summary(vapply(FUN = naConvert, porto_sample$ps_car_01_cat, FUN.VALUE = numeric(1)))
 # And last variable ps_car_03_cat
-vapply(FUN = naConvert, porto_sample$ps_car_03_cat, FUN.VALUE = 1)
-summary(vapply(FUN = naConvert, porto_sample$ps_car_03_cat, FUN.VALUE = 1))
+vapply(FUN = naConvert, porto_sample$ps_car_03_cat, FUN.VALUE = numeric(1))
+summary(vapply(FUN = naConvert, porto_sample$ps_car_03_cat, FUN.VALUE = numeric(1)))
 
 
 # Now let's check which observations have -1's for the whole dataset
@@ -116,13 +116,13 @@ for (i in colnames(porto_train)) {
 # After applying the function naConvert we will check the resulting number of NA's
 # with this results
 # Example:
-summary(vapply(FUN = naConvert, porto_train$ps_ind_02_cat, FUN.VALUE = 1))
+summary(vapply(FUN = naConvert, porto_train$ps_ind_02_cat, FUN.VALUE = numeric(1)))
 # Process the change
 for (i in colnames(porto_train)) {
-  porto_train[, i] <- vapply(X = porto_train[, i], FUN = naConvert, FUN.VALUE = 1)
+  porto_train[, i] <- vapply(X = porto_train[, i], FUN = naConvert, FUN.VALUE = numeric(1))
 }
 
-summary(vapply(X = porto_train[, "ps_ind_02_cat"], FUN = naConvert, FUN.VALUE = 1))
+summary(vapply(X = porto_train[, "ps_ind_02_cat"], FUN = naConvert, FUN.VALUE = numeric(1)))
 # naConvert should cover the case when the value is NA
 
 # Checking after the conversion
@@ -191,4 +191,194 @@ namesframe <- data.frame(index = 1:10, colnames = colnames(porto_train)[1:10], i
                          colnames = c(colnames(porto_train)[41:59], ""))
 
 namesframe
+
+# Converting all factor variables to factor 
+porto_train$target <- factor(porto_train$target)
+porto_train$ps_ind_01 <- factor(porto_train$ps_ind_01, ordered = T)
+porto_train$ps_ind_02_cat <- factor(porto_train$ps_ind_02_cat)
+porto_train$ps_ind_03 <- factor(porto_train$ps_ind_03, ordered = T)
+porto_train$ps_ind_04_cat <- factor(porto_train$ps_ind_04_cat)
+porto_train$ps_ind_05_cat <- factor(porto_train$ps_ind_05_cat)
+
+# Let's explore now each variable one by one
+
+# 1) Variable: id
+
+length(unique(porto_train$id))
+length(unique(porto_train$id)) == dim(porto_train)[1]
+typeof(porto_train$id)
+head(porto_train$id)
+
+#Numeric variable, it takes 595212 unique values so, has its name indicates, it acts as
+#an identifier variable. So for prediction purposes it will be useless.
+
+# 2) Variable: target
+
+sum(is.na(porto_train$target))
+# Target variable has no missing observations.
+summary(porto_train$target)
+table(porto_train$target)
+round(table(porto_train$target)/length(porto_train$target), 2)
+barplot(table(porto_train$target)/length(porto_train$target), col = "steelblue4", 
+        xlab = "target", ylab = "frequency", main = "Frequencies of the variable target")
+
+
+ggplot(as.data.frame(round(table(porto_train$target)/length(porto_train$target), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", fill = "steelblue4",
+                                           color = "steelblue4") +
+  labs(title = "Frequencies of variable target", x = "target") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+
+# 3) Variable: ps_ind_01
+
+summary(porto_train$ps_ind_01)
+hist(porto_train$ps_ind_01)
+sum(is.na(porto_train$ps_ind_01))
+# Has no missing values
+table(porto_train$ps_ind_01)
+# Takes discrete values but is no classified has categorical in the variable name
+# consult the competition instructions
+# From the instructions: "feature names include the postfix bin to indicate binary 
+# features and cat to indicate categorical features. 
+# Features without these designations are either continuous or ordinal"
+#
+# Don't have the postfix bin or cat and don't look continuous, so let's asume
+# is an ordinal variable
+table(porto_train$ps_ind_01)
+table(porto_train$ps_ind_01)/length(porto_train$ps_ind_01)*100
+
+ggplot(as.data.frame(round(table(porto_train$ps_ind_01)/length(porto_train$ps_ind_01), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_01", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# As can be seen in the plot, the variable has eight different ordered categories, 
+# being 0 and 1 the most represented ones.
+
+levels(porto_train$ps_ind_01)
+head(porto_train$ps_ind_01)
+
+# 4) Variable: ps_ind_02_cat
+
+# As is indicated in his potfix, this variable is categorical without order.
+summary(porto_train$ps_ind_02_cat)
+# It has 216 values classified as missing.
+
+# Plot with the relative frequencies without taking care of the na's (incorrect)
+ggplot(as.data.frame(round(table(porto_train$ps_ind_02_cat)/length(porto_train$ps_ind_02_cat), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_02_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Plot with the absolute frequencies without na's bar
+ggplot(as.data.frame(table(porto_train$ps_ind_02_cat)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_02_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+summary(porto_train$ps_ind_02_cat)/length(porto_train$ps_ind_02_cat)
+
+# Plot without the na's bar but with the correct frequencies:
+ggplot(as.data.frame(round(table(porto_train$ps_ind_02_cat)/length(na.omit(porto_train$ps_ind_02_cat)), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_02_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Change in the relative frequencies before and after omitting the missing values
+summary(porto_train$ps_ind_02_cat)/length(porto_train$ps_ind_02_cat)
+summary(porto_train$ps_ind_02_cat)/length(na.omit(porto_train$ps_ind_02_cat))
+# It's not a very significative change since it's a relativelly small number of 
+# missings values when compared with the whole variable, but is necessary to take 
+# count of this because with variables with more na's the error introduced 
+# between the true relative frequency value and the value offered can be big.
+#
+# Now let's try to plot a new barplot taking account of the na's by adding a new
+# bar to the previous plot.
+
+# data.frame for use in the ggplot sentence
+auxframe <- data.frame(Var1 = names(summary(porto_train$ps_ind_02_cat)), 
+                       Freq = summary(porto_train$ps_ind_02_cat))
+
+# barplot with the absolute frequencies, taking care of the number of na's
+ggplot(auxframe,
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_02_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# barplot with the relative frequencies, taking care of the number of na's
+auxframe2 <- data.frame(Var1 = names(summary(porto_train$ps_ind_02_cat)), 
+                       Freq = round(summary(porto_train$ps_ind_02_cat)/length(porto_train$ps_ind_02_cat), 4))
+ggplot(auxframe2,
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_02_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# 5) Variable: ps_ind_03
+
+summary(porto_train$ps_ind_03)
+# Has no missing values
+hist(porto_train$ps_ind_03)
+# His histogram looks discrete instead of continous, so can be an ordinal variable?
+table(porto_train$ps_ind_03)
+# It looks categorical but not have the potfix cat, so it must be an ordinal variable.
+#
+# barplot with the absolute frequencies
+ggplot(as.data.frame(table(porto_train$ps_ind_03)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_03", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+# barplot with the relative frequencies
+ggplot(as.data.frame(round(table(porto_train$ps_ind_03)/length(porto_train$ps_ind_03), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_03", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+
+# 6) Variable: ps_ind_04_cat
+
+# Has the potfix cat, so it must be categorical without order
+summary(porto_train$ps_ind_04_cat)
+# It's a binary variable, again we're not going to represent the missing values
+# in the plot because there is a very small number of them
+
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_ind_04_cat)/length(na.omit(porto_train$ps_ind_04_cat)), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_04_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# 7) Variable: ps_ind_05_cat
+
+# Potfix cat, so it's also a unordered categorical variable
+summary(porto_train$ps_ind_05_cat)
+# 5809 missing values
+table(porto_train$ps_ind_05_cat)
+# Seven different categories, from zero to six.
+# Now the number of missing values is a significant one in relation to the size of 
+# the other categories so let's add a new bar to the barplot with the number of 
+# missing values.
+auxframe <- data.frame(Var1 = names(summary(porto_train$ps_ind_05_cat)), 
+                       Freq = summary(porto_train$ps_ind_05_cat))
+
+auxframe2 <- data.frame(Var1 = names(summary(porto_train$ps_ind_05_cat)), 
+                        Freq = round(summary(porto_train$ps_ind_05_cat)/length(porto_train$ps_ind_05_cat), 3))
+
+auxframe2
+
+ggplot(auxframe2, aes(x = Var1, y = Freq)) + geom_bar(stat = "identity",
+                                                     color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_05_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
 

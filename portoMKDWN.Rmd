@@ -11,8 +11,9 @@ The objective of this document is to explore the dataset from the kaggle competi
 
 These are all the libraries that must be installed and loaded before executing this notebook.
 
-```{r}
+```{r results = 'hide', warning = FALSE}
 library(kableExtra)
+library(ggplot2)
 ```
 Checking if a particular library is actually installed.
 ```{r}
@@ -126,7 +127,7 @@ for (i in colnames(porto_train)) {
 After applying the function naConvert we will check the resulting number of NA's with this results./Now let's process the change:
 ```{r}
 for (i in colnames(porto_train)) {
-  porto_train[, i] <- vapply(X = porto_train[, i], FUN = naConvert, FUN.VALUE = 1)
+  porto_train[, i] <- vapply(X = porto_train[, i], FUN = naConvert, FUN.VALUE = numeric(1))
 }
 ```
 And let's do the checking after the conversion:
@@ -151,7 +152,7 @@ checkFrame[dim(checkFrame)[1] + 1, ] <- c("total", colSums(checkFrame[, c("missi
 checkFrame$equal <- as.numeric(checkFrame$missingBefore == checkFrame$missingAfter)
 checkFrame
 ```
-Let's make also a dataframe for checking that the rest of variables remain at zero missings after using the function naConvert
+Let's make also a dataframe for checking that the rest of variables remain at zero missings after using the function naConvert.
 ```{r}
 checkFrame2 <- data.frame(variable = colnames(porto_train)[-varpos])
 checkComplete <- numeric() # Variable to store the results of checking that no new
@@ -162,3 +163,131 @@ for (i in colnames(porto_train)[-varpos]) {
 checkFrame2$missingAfter <- checkComplete
 checkFrame2
 ```
+Since many variables are categorical and categorical with an ordinal character, let's transform them into the correct type.
+```{r}
+porto_train$target <- factor(porto_train$target)
+porto_train$ps_ind_01 <- factor(porto_train$ps_ind_01, ordered = T)
+porto_train$ps_ind_02_cat <- factor(porto_train$ps_ind_02_cat)
+porto_train$ps_ind_03 <- factor(porto_train$ps_ind_03, ordered = T)
+porto_train$ps_ind_04_cat <- factor(porto_train$ps_ind_04_cat)
+porto_train$ps_ind_05_cat <- factor(porto_train$ps_ind_05_cat)
+```
+Now we're going to explore each one of the 59 variables to know a little more about them.\
+
+#### **1) Variable id:**
+```{r}
+length(unique(porto_train$id))
+length(unique(porto_train$id)) == dim(porto_train)[1]
+typeof(porto_train$id)
+head(porto_train$id)
+```
+Numeric variable, it takes 595212 unique values so, has its name indicates, it acts as an identifier variable. So for prediction purposes it will be useless.
+
+#### **2) Variable target:**
+As his name indicates, this variable is the one that we want to predict. 1 means that the policy holder has made an insurance claim in the current year. We are asked to build a model that predicts the probability of a client to open a claim.
+```{r}
+sum(is.na(porto_train$target))
+```
+No one of its values is missing.
+
+```{r}
+ggplot(as.data.frame(round(table(porto_train$target)/length(porto_train$target), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", fill = "steelblue4",
+                                           color = "steelblue4") +
+  labs(title = "Frequencies of variable target", x = "target") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+As can be seen in the above plot, the variable is very imbalanced, since the minority category only takes the 4 % of the observations. This is an important issue, since it can lead a model to commit overfitting over the majority category. There are several techniques for dealing with this, but we're going to expolore them afterwards.
+
+#### **3) Variable ps_ind_01:**
+From the instructions we have that: "feature names include the postfix bin to indicate binary features and cat to indicate categorical features. Features without these designations are either continuous or ordinal". The variable don't have the postfix bin or cat and don't look continuous, so let's asume is an ordinal variable.
+```{r}
+sum(is.na(porto_train$ps_ind_01))
+```
+No value is missing.
+```{r}
+head(porto_train$ps_ind_01)
+ggplot(as.data.frame(round(table(porto_train$ps_ind_01)/length(porto_train$ps_ind_01), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_01", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+As can be seen in the plot above, the variable has eight different ordered categories, being 0 and 1 the most represented ones.
+
+#### **4) Variable ps_ind_02_cat:**
+
+```{r}
+summary(porto_train$ps_ind_02_cat)
+```
+As his potfix indicates this variable is categorical without order.  
+It has 216 missing values, a small number when compared with size of the column so we are not going to give missing values a bar in the barplot.
+```{r}
+# barplot without dedicating a bar for the missing values but taking care of them
+# for calculating the frequencies
+ggplot(as.data.frame(round(table(porto_train$ps_ind_02_cat)/length(na.omit(porto_train$ps_ind_02_cat)), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_02_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+As can be seen in the above plot, more than the 70 % percent of the observations take the first category, and more than the 90 % of them take the first or the second categories.
+
+#### **5) Variable ps_ind_03:**
+
+```{r}
+summary(porto_train$ps_ind_03)
+```
+Variable has no missing values.
+```{r}
+# barplot with the relative frequencies
+ggplot(as.data.frame(round(table(porto_train$ps_ind_03)/length(porto_train$ps_ind_03), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_03", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+The categories 0, 9, 10 and 11 are the less represented, occupying between the 2 and the 4 % of the observations. The rest of the categories have between the 7 and the 16 % of the observations.
+
+#### **6) Variable ps_ind_04_cat:**
+This variable has the potfix cat, so it must be categorical without order.
+```{r}
+summary(porto_train$ps_ind_04_cat)
+```
+We have a binary variable with 83 missing values.
+```{r}
+ggplot(as.data.frame(round(table(porto_train$ps_ind_04_cat)/length(na.omit(porto_train$ps_ind_04_cat)), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_04_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+58 % of the observations are in the category 0 and 42 % in the category 1.
+
+#### **7) Variable ps_ind_05_cat:**
+
+The variable has the potfix cat, so it's also a unordered categorical variable.
+
+```{r}
+summary(porto_train$ps_ind_05_cat)
+```
+The variable has 7 categories from 0 to 6 and counts with 5809 missing values.
+```{r}
+# Dataframe for passing into the ggplot function
+auxframe <- data.frame(Var1 = names(summary(porto_train$ps_ind_05_cat)), 
+                       Freq = summary(porto_train$ps_ind_05_cat))
+# Absolute frequencies barplot
+ggplot(auxframe, aes(x = Var1, y = Freq)) + geom_bar(stat = "identity",
+                                                     color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_05_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+#### **8) Variable ps_ind_06_bin:**

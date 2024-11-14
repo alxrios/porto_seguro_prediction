@@ -171,6 +171,34 @@ porto_train$ps_ind_02_cat <- factor(porto_train$ps_ind_02_cat)
 porto_train$ps_ind_03 <- factor(porto_train$ps_ind_03, ordered = T)
 porto_train$ps_ind_04_cat <- factor(porto_train$ps_ind_04_cat)
 porto_train$ps_ind_05_cat <- factor(porto_train$ps_ind_05_cat)
+porto_train$ps_ind_06_bin <- factor(porto_train$ps_ind_06_bin)
+porto_train$ps_ind_07_bin <- factor(porto_train$ps_ind_07_bin)
+porto_train$ps_ind_08_bin <- factor(porto_train$ps_ind_08_bin)
+porto_train$ps_ind_09_bin <- factor(porto_train$ps_ind_09_bin)
+porto_train$ps_ind_10_bin <- factor(porto_train$ps_ind_10_bin)
+porto_train$ps_ind_11_bin <- factor(porto_train$ps_ind_11_bin)
+porto_train$ps_ind_12_bin <- factor(porto_train$ps_ind_12_bin)
+porto_train$ps_ind_13_bin <- factor(porto_train$ps_ind_13_bin)
+porto_train$ps_ind_14 <- factor(porto_train$ps_ind_14, ordered = T)
+porto_train$ps_ind_15 <- factor(porto_train$ps_ind_15, ordered = T)
+porto_train$ps_ind_16_bin <- factor(porto_train$ps_ind_16_bin)
+porto_train$ps_ind_17_bin <- factor(porto_train$ps_ind_17_bin)
+porto_train$ps_ind_18_bin <- factor(porto_train$ps_ind_18_bin)
+porto_train$ps_reg_01 <- factor(porto_train$ps_reg_01, ordered = T)
+porto_train$ps_reg_02 <- factor(porto_train$ps_reg_02, ordered = T)
+porto_train$ps_car_01_cat <- factor(porto_train$ps_car_01_cat)
+porto_train$ps_car_02_cat <- factor(porto_train$ps_car_02_cat)
+porto_train$ps_car_03_cat <- factor(porto_train$ps_car_03_cat)
+porto_train$ps_car_04_cat <- factor(porto_train$ps_car_04_cat)
+porto_train$ps_car_05_cat <- factor(porto_train$ps_car_05_cat)
+porto_train$ps_car_06_cat <- factor(porto_train$ps_car_06_cat)
+porto_train$ps_car_07_cat <- factor(porto_train$ps_car_07_cat)
+porto_train$ps_car_08_cat <- factor(porto_train$ps_car_08_cat)
+porto_train$ps_car_09_cat <- factor(porto_train$ps_car_09_cat)
+porto_train$ps_car_10_cat <- factor(porto_train$ps_car_10_cat)
+porto_train$ps_car_11_cat <- factor(porto_train$ps_car_11_cat)
+porto_train$ps_car_11 <- factor(porto_train$ps_car_11, ordered = T)
+porto_train$ps_car_15 <- factor(porto_train$ps_car_15, ordered = T)
 ```
 Now we're going to explore each one of the 59 variables to know a little more about them.\
 
@@ -192,8 +220,8 @@ No one of its values is missing.
 
 ```{r}
 ggplot(as.data.frame(round(table(porto_train$target)/length(porto_train$target), 2)),
-       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", fill = "steelblue4",
-                                           color = "steelblue4") +
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", fill = "indianred4",
+                                           color = "indianred4") +
   labs(title = "Frequencies of variable target", x = "target") + theme_classic() +
   geom_text(aes(label = Freq), vjust = -0.3) + 
   theme(plot.title = element_text(hjust = 0.5, face = "bold"))
@@ -290,4 +318,666 @@ ggplot(auxframe, aes(x = Var1, y = Freq)) + geom_bar(stat = "identity",
   theme(plot.title = element_text(hjust = 0.5, face = "bold"))
 ```
 
+In the above plot can be seen that almost the 90 % of the observations have the category 0, while all the other six categories have a representation ranging between the 0.3 % and the 3.5 %.
+
 #### **8) Variable ps_ind_06_bin:**
+
+```{r}
+summary(porto_train$ps_ind_06_bin)
+```
+Has no missing values.
+```{r}
+ggplot(as.data.frame(round(table(porto_train$ps_ind_06_bin)/length(porto_train$ps_ind_06_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_06_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+61 % of the observations take the value 0 and the 39 % the value 1.
+
+#### **9) Variable ps_ind_07_bin:**
+
+```{r}
+summary(porto_train$ps_ind_07_bin)
+```
+Has no missing values.
+```{r}
+# Relatve frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_ind_07_bin)/length(porto_train$ps_ind_07_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_07_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+74 % of the observations take the category 0 and 26 % take the category 1.
+
+#### **10) Variable ps_ind_08_bin:**
+
+```{r}
+summary(porto_train$ps_ind_08_bin)
+```
+The variable has no missing values.
+```{r}
+ggplot(as.data.frame(round(table(porto_train$ps_ind_08_bin)/length(porto_train$ps_ind_08_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_08_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+84 % of the observations take the value 0 while the 16 % take the value 1.
+
+#### **11) Variable ps_ind_09_bin:**
+
+```{r}
+summary(porto_train$ps_ind_09_bin)
+```
+No missing values.
+
+```{r}
+ggplot(as.data.frame(round(table(porto_train$ps_ind_09_bin)/length(porto_train$ps_ind_09_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_09_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+The 81 % of the observations have the category 0 and the 19 % have the category 1.
+
+#### **12) Variable ps_ind_10_bin:**
+
+```{r}
+summary(porto_train$ps_ind_10_bin)
+```
+No missing values.
+```{r}
+ggplot(as.data.frame(table(porto_train$ps_ind_10_bin)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_10_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+Almost the 100 % of the observations take the category 0, only 222 observations have 1 as their category.
+
+#### **13) Variable ps_ind_11_bin:**
+
+```{r}
+summary(porto_train$ps_ind_11_bin)
+```
+No missing values.
+```{r}
+ggplot(as.data.frame(table(porto_train$ps_ind_11_bin)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_11_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+Almost the 100 % of the observations take the value 0.
+
+#### **14) Variable ps_ind_12_bin:**
+```{r}
+summary(porto_train$ps_ind_12_bin)
+```
+No missing values present in the variable.
+```{r}
+# Barplot of the absolute frequencies
+ggplot(as.data.frame(table(porto_train$ps_ind_12_bin)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_12_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+99 % of the observations in the variable take the value 0 and the resting 1 % take the value 1.
+
+#### **15) Variable ps_ind_13_bin:**
+
+```{r}
+summary(porto_train$ps_ind_13_bin)
+```
+The variable has no missing values.
+```{r}
+ggplot(as.data.frame(table(porto_train$ps_ind_13_bin)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_13_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+```
+
+Almost the 100 % of the observations in the variable take the value 0. Only a 0.09 % of them take the value 1.
+
+#### **16) Variable ps_ind_14:**
+
+```{r}
+summary(porto_train$ps_ind_14)
+head(porto_train$ps_ind_14)
+```
+This variable has no missing values. It's an ordinal variable with 5 categories, from 0 to 4.
+```{r}
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_ind_14)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_14", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+Almost 99 % of the observations take the category 0. 0.9 % of them take the value 1, the  rest of categories obtain lesser percentages.
+
+#### **17) Variable ps_ind_15:**
+
+```{r}
+summary(porto_train$ps_ind_15)
+```
+This variable has fourteen categories, from 0 to 13, and has no missing values.
+```{r}
+head(porto_train$ps_ind_15)
+ggplot(as.data.frame(round(table(porto_train$ps_ind_15)/length(porto_train$id), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_15", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+The category with more observations is 7 with the 11 % of the observations, followed by 6 and 8 with the 10 % of the observations and 10 and 11 with the 9 %. All other categories have lesser percentages.
+
+#### **18) Variable ps_ind_16_bin:**
+
+```{r}
+summary(porto_train$ps_ind_16_bin)
+```
+As it's potfix indicates, this variable takes only two values. It has no missing values.
+```{r}
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_ind_16_bin)/length(porto_train$ps_ind_16_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_16_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+66 % of the observations take the category 1 and 34 % take the category 0.
+
+#### **19) Variable ps_ind_17_bin:**
+
+```{r}
+summary(porto_train$ps_ind_17_bin)
+```
+No missing values present in the variable.
+```{r}
+ggplot(as.data.frame(round(table(porto_train$ps_ind_17_bin)/length(porto_train$ps_ind_16_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_17_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+The 88 % of the observations in the variable take the category 0 and the other 12 % take the category 1.
+
+#### **20) Variable ps_ind_18_bin:**
+
+```{r}
+summary(porto_train$ps_ind_18_bin)
+```
+The variable has no missings.
+```{r}
+
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_ind_18_bin)/length(porto_train$ps_ind_16_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_ind_18_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+The 85 % of the observations take the category 0 and the lessing 15 % take the value 1.
+
+#### **21) Variable ps_reg_01:**
+
+```{r}
+head(porto_train$ps_reg_01)
+length(table(porto_train$ps_reg_01))
+```
+At first glance this variable looks like a continuous one, but if we inspect it a little more, we can see that it only takes 10 different values (from 0 to 0.9 increasing by 0.1 units.). Since in it's name is not the potfix _cat nor _bin and according to the instructions, let's asume it's an ordinal one.
+```{r}
+sum(is.na(porto_train$ps_reg_01))
+```
+The variable has no missing values.
+```{r}
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_reg_01)/length(porto_train$ps_reg_01), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_reg_01", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+In the above barplot can be seen that the most frequent category is 0.9 appearing in the 33 % of the observations. The rest of categories obtain percentages between 4 % and 11 %.
+
+#### **22) Variable ps_reg_02:**
+
+```{r}
+head(porto_train$ps_reg_02)
+length(table(porto_train$ps_reg_02))
+```
+With this variable we have the same case as with the previous one, at first glance it looks continuous but if we inspect it a little more, we see that it only takes nineteen different values, taking into account that the name of this variable don't have the cat potfix nor bin one neither, we are going to asume again that it's an ordinal variable.
+```{r}
+sum(is.na(porto_train$ps_reg_02))
+```
+This variable has no missing values.
+```{r}
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_reg_02)/length(porto_train$ps_reg_02), 3)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_reg_02", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), hjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold")) + coord_flip()
+```
+
+We can see that the most observed frequency is 0.2 with the 19 % of the observations followed by 0.3 and 0 with the 16 % and the 15 % respectively.
+
+#### **23) Variable ps_reg_03:**
+
+```{r}
+summary(porto_train$ps_reg_03)[7]
+missingFrame <- data.frame(observed = length(porto_train$ps_reg_03[which(!is.na(porto_train$ps_reg_03))]), 
+           missing = sum(is.na(porto_train$ps_reg_03)))
+missingFrame/length(porto_train$ps_reg_03)
+```
+This variable has 107772 missing values, this is the 18 % of the observations.
+```{r}
+# Histogram
+ggplot(porto_train, aes(x = ps_reg_03)) + geom_histogram(color = "white", fill = "gray16") +
+  theme_dark() + labs(title = "Histogram of variable ps_reg_03", x = "value") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Boxplot
+ggplot(porto_train, aes(x = ps_reg_03)) + geom_boxplot(color = "mediumseagreen") + coord_flip() +
+  labs(title = "Boxplot of variable ps_reg_03", x = "value") + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Quantiles in column format
+print.data.frame(data.frame(quantile = names(quantile(porto_train$ps_reg_03, na.rm = T, 
+                                                      probs = c(seq(0, 0.9, 0.1), 
+                                                                seq(0.9, 1, 0.01)))),
+                            value = unname(quantile(porto_train$ps_reg_03, na.rm = T, 
+                                                    probs = c(seq(0, 0.9, 0.1),
+                                                              seq(0.9, 1, 0.01))))), 
+                 row.names = F)
+```
+
+The median of the variable is located in 0.8, this is 50 % of the observations take values equal or under 0.8, and the resting 50 % take values bigger than 0.8. As can be seen in the graphs and in the quantiles table, while the maximum value the variable takes is 4.04, the 99 % of the observations takes values as big as 1.88. This can be an indicator of outliers present in the variable, but since we don't have any additional information about the variable meaning or it's expected range of values to be taken, we can't do much more about it than maybe delete this extreme observations, so by now, let's let them just like this.
+In either case, let's inspect just a bit more this extreme observations.
+First let's see how many values are bigger than the 99 % quantile.
+```{r}
+length(porto_train$ps_reg_03[which(porto_train$ps_reg_03 > 1.88)])
+```
+Let's inspect the distribution of these 4910 observations.
+```{r}
+summary(porto_train$ps_reg_03[which(porto_train$ps_reg_03 > 1.88)])
+```
+It seems that 4.04 it's really far from the rest of the observations, let's add more quantiles.
+```{r}
+quantile(porto_train$ps_reg_03[which(porto_train$ps_reg_03 > 1.88)], probs = c(seq(0, 0.9, 0.1), seq(0.9, 1, 0.01)))
+```
+How many observations are bigger than 2.77?
+```{r}
+length(porto_train$ps_reg_03[which(porto_train$ps_reg_03 > 2.77)])
+```
+Since only are 49 let's take a look into them.
+```{r}
+sort(porto_train$ps_reg_03[which(porto_train$ps_reg_03 > 2.77)])
+```
+Which structure has the target value for this observations?
+```{r}
+table(porto_train$target[which(porto_train$ps_reg_03 > 2.77)])
+```
+Let's compare it with the results for the whole dataset.
+```{r}
+# Relative frequencies
+table(porto_train$target[which(porto_train$ps_reg_03 > 2.77)])/49
+# For the whole dataset
+table(porto_train$target)/length(porto_train$target)
+((0.08163265 - 0.03644752)/0.03644752)*100
+```
+There is almost a 124 % increment in the frequency of the positive category in this 49 observations.
+
+#### **24) Variable ps_car_01_cat:**
+```{r}
+summary(porto_train$ps_car_01_cat)
+```
+This variable counts with 107 missing values and it's formed by 12 different categories.
+```{r}
+ggplot(as.data.frame(round(table(porto_train$ps_car_01_cat)/length(na.omit(porto_train$ps_car_01_cat)), 3)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_car_01_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+The categorie with more observations is 11 which account the 35 % of them, followed by 7 with another 30 %. Several categories represent less than the 5 % of the observations.
+
+#### **25) Variable ps_car_02_cat:**
+
+```{r}
+summary(porto_train$ps_car_02_cat)
+```
+This variable has 5 missing values.
+```{r}
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_car_02_cat)/length(na.omit(porto_train$ps_car_02_cat)), 3)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_car_02_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+83 % of the observations take the category 1 while the resting 17 % take the value 0.
+
+#### **26) Variable ps_car_03_cat:**
+
+```{r}
+summary(porto_train$ps_car_03_cat)
+```
+This variable have 411231 missing values and takes two different categories.
+```{r}
+# Auxiliar dataframe for using in the ggplot sentence
+auxframe <- data.frame(Var1 = names(summary(porto_train$ps_car_03_cat)),
+                       Freq = round(summary(porto_train$ps_car_03_cat)/length(porto_train$ps_car_03_cat), 2))
+
+ggplot(auxframe,
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_car_03_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+0.12/(0.12+0.19) # Observed frequencies of the category 0
+0.19/(0.12+0.19) # Observed frequencies of the category 1
+```
+
+As can be seen in the above barplot, 69 % of the observations are missing, 19 % belong to the 1 category and 12 % to the 0 category, this left the variable having a 39 % of the values observed taking the category 0 and a 61 % percent obtaining the category 1. Due to the large amount of missing values, (way more than half of the observations), maybe it's better to not use this variable at all.
+
+#### **27) Variable ps_car_04_cat:**
+
+```{r}
+summary(porto_train$ps_car_04_cat)/length(porto_train$ps_car_04_cat)
+```
+Variable has ten different categories and has no missing values.
+```{r}
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_car_04_cat)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_car_04_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+The most observed category is 0 with the 83 % of the observations. All the other categories count with as much as the 5 % of the observations.
+
+#### **28) Variable ps_car_05_cat:**
+
+```{r}
+summary(porto_train$ps_car_05_cat)
+```
+This variable counts with 266551 missing values.
+```{r}
+# Auxiliar dataframe for passing it into the ggplot function
+auxframe <- data.frame(Var1 = names(summary(porto_train$ps_car_05_cat)),
+                       Freq = round(summary(porto_train$ps_car_05_cat)/length(porto_train$ps_car_05_cat), 2))
+
+# Relative frequencies barplot
+ggplot(auxframe,
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_car_04_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+0.26/(0.26 + 0.29) # Observed frequencies for the 0 category
+0.29/(0.26 + 0.29) # Observed frequencies for the 1 category
+```
+
+As can be seen in the above barplot, 45 % of the observations are missing values, 29 % belong to the 1 category and the lasting 26 % belong to the 0 category. This left the variable observed frquencies with a 47 % of observations that belong to the 0 category and a 53 % of them that belong to the 1 category.
+
+#### **29) Variable ps_car_06_cat:**
+
+```{r}
+sum(is.na(porto_train$ps_car_06_cat))
+```
+This variable has no missing values.
+```{r}
+length(table(porto_train$ps_car_06_cat))
+```
+It takes 18 different categories.
+```{r}
+print.data.frame(data.frame(category = names(sort(summary(porto_train$ps_car_06_cat), decreasing = T)),
+           frequency = round(100*sort(summary(porto_train$ps_car_06_cat)/length(porto_train$ps_car_06_cat),
+                            decreasing = T), 2), row.names = NULL), row.names = F)
+```
+As can be seen in table above, the categories with more obserations are 11 with more than 22 % of them, 1 with amost a 20 % and 0 with almost a 19 % of the observations. All other categories take minor percentages.
+
+#### **30) Variable ps_car_07_cat:**
+
+```{r}
+summary(porto_train$ps_car_07_cat)
+round(100*summary(porto_train$ps_car_07_cat)[3]/dim(porto_train)[1], 2)
+```
+This variable have 11489 missing values, this is a 1.93 % of the observations in the variable.
+```{r}
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_car_07_cat)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_car_07_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+Almost 95 % of the observed values take the category 1 while the lasting 5 % take the category 0.
+
+#### **31) Variable ps_car_08_cat:**
+
+```{r}
+summary(porto_train$ps_car_08_cat)
+```
+This variable has no missing values and only takes two different categories.
+```{r}
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_car_08_cat)/length(porto_train$ps_car_08_cat), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_car_08_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+17 % of the observations take the value 0 and 83 % the value 1.
+
+#### **32) Variable ps_car_09_cat:**
+
+```{r}
+summary(porto_train$ps_car_09_cat)
+```
+This variable has 569 missing values.
+```{r}
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_car_09_cat)/length(na.omit(porto_train$ps_car_09_cat)), 3)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_car_09_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+This variable has five categories being 2 the one with most observations (59.4 %) followed by 0 with the 32.7 % of them
+
+#### **33) Variable ps_car_10_cat:**
+
+```{r}
+summary(porto_train$ps_car_10_cat)
+```
+This variable takes three different categories and has no missing values.
+```{r}
+ggplot(as.data.frame(table(porto_train$ps_car_10_cat)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_car_10_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+As can be seen in the above barplot, 99 % of the observations take the value 1.
+
+#### **33) Variable ps_car_10_cat:**
+
+```{r}
+summary(porto_train$ps_car_10_cat)
+```
+This variable takes three different categories and has no missing values.
+```{r}
+ggplot(as.data.frame(table(porto_train$ps_car_10_cat)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_car_10_cat", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+```
+
+99 % of the observations take the category 1.
+
+#### **34) Variable ps_car_11_cat:**
+
+```{r}
+sum(is.na(porto_train$ps_car_11_cat))
+length(table(porto_train$ps_car_11_cat))
+```
+This variable has no missing values and has 104 different categories.
+```{r}
+print.data.frame(data.frame(category = names(sort(summary(porto_train$ps_car_11_cat), decreasing = T)),
+                            frequency = round(100*sort(summary(porto_train$ps_car_11_cat)/length(porto_train$ps_car_11_cat),
+                                                       decreasing = T), 2), row.names = NULL), row.names = F)
+```
+
+The most observed category is 104 with the 14.29 % of the observations.
+
+#### **35) Variable ps_car_11:**
+
+```{r}
+head(porto_train$ps_car_11)
+```
+This variable takes only four different values and didn't have a potfix cat nor bin so it must be an ordinal variable.
+```{r}
+summary(porto_train$ps_car_11)
+```
+This variable has 5 missing values.
+```{r}
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_car_11)/length(na.omit(porto_train$ps_car_11)), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_car_11", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+54 % of the observations belong to the category 3, 32 % to the category 2, 10 % to the category 1 and only 4 % to the category 0.
+
+#### **36) Variable ps_car_12:**
+
+```{r}
+sum(is.na(porto_train$ps_car_12))
+```
+This variable has only one missing value.
+```{r}
+head(porto_train$ps_car_12)
+length(table(porto_train$ps_car_12))
+```
+```{r}
+# Boxplot
+ggplot(porto_train, aes(x = ps_car_12)) + geom_boxplot(color = "mediumseagreen") + coord_flip() +
+  labs(title = "Boxplot of variable ps_car_12", x = "value") + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+quantile(porto_train$ps_car_12, na.rm = T, probs = seq(0, 1, 0.1))
+quantile(porto_train$ps_car_12, na.rm = T, probs = seq(0.9, 1, 0.01))
+```
+
+Boxplot for this variable looks like it could have outliers both by the right side and the left. For example, the maximum value it's located at 1.26 but 99 % of the observations are as much as 0.57. In the absence of more information about the variable let's just let the observations like that.
+
+#### **37) Variable ps_car_13:**
+
+```{r}
+head(porto_train$ps_car_13)
+```
+This variable looks like a continuous one. Let's see how many different values it takes.
+```{r}
+length(table(porto_train$ps_car_13))
+```
+It's definetly a continuous variable. Let's see if it contains any missing value.
+```{r}
+sum(is.na(porto_train$ps_car_13))
+```
+Don't have missing values.
+```{r}
+# Histogram
+ggplot(porto_train, aes(x = ps_car_13)) + geom_histogram(color = "white", fill = "gray16") +
+  theme_dark() + labs(title = "Histogram of variable ps_car_13", x = "value") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Boxplot
+ggplot(porto_train, aes(x = ps_car_13)) + geom_boxplot(color = "mediumseagreen") + coord_flip() +
+  labs(title = "Boxplot of variable ps_car_13", x = "value") + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+summary(porto_train$ps_car_13)
+quantile(porto_train$ps_car_13, na.rm = T, probs = seq(0.9, 1, 0.01))
+```
+We can see that this variable also is susceptible of having outliers, specially in the right side given that the maxium value registered is 3.72 while 99 % of the observations are lesser than 1.62. As with previous variables seen, lacking more information about the variable, let's just let it like this, at least by now.
+
+#### **38) Variable ps_car_14:**
+
+```{r}
+summary(porto_train$ps_car_14)
+round(100*summary(porto_train$ps_car_14)[7]/dim(porto_train)[1], 2)
+```
+This variable has 42620 missing values, that's a 7.16 % of the total size of the variable.
+```{r}
+head(porto_train$ps_car_14)
+```
+Variable looks continuous, let's check how many different values it takes.
+```{r}
+length(table(porto_train$ps_car_14))
+```
+849 different values, so let's asume that effectively, it's continuous.
+```{r}
+# Histogram
+ggplot(porto_train, aes(x = ps_car_14)) + geom_histogram(color = "white", fill = "gray16") +
+  theme_dark() + labs(title = "Histogram of variable ps_car_14", x = "value") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Boxplot
+ggplot(porto_train, aes(x = ps_car_14)) + geom_boxplot(color = "mediumseagreen") + coord_flip() +
+  labs(title = "Boxplot of variable ps_car_14", x = "value") + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+As with previous variables, this variable also is susceptible of having outliers, and as before let's don't take any action in fault of more evidence.
+
+#### **39) Variable ps_car_15:**
+
+```{r}
+sum(is.na(porto_train$ps_car_15))
+```
+No missing values present in this variable.
+```{r}
+head(porto_train$ps_car_15)
+length(table(porto_train$ps_car_15))
+```
+At first glance this variables looks continuous, but inspecting it a bit more we see that it only takes fifteen different values, so, taking into account that it has no potfix, we're going to assume that is an ordinal variable.
+
+```{r}
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_car_15)/length(porto_train$ps_car_15), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_car_15", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), hjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold")) + coord_flip()
+```

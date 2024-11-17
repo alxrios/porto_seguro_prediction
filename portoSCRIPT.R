@@ -228,6 +228,26 @@ porto_train$ps_car_10_cat <- factor(porto_train$ps_car_10_cat)
 porto_train$ps_car_11_cat <- factor(porto_train$ps_car_11_cat)
 porto_train$ps_car_11 <- factor(porto_train$ps_car_11, ordered = T)
 porto_train$ps_car_15 <- factor(porto_train$ps_car_15, ordered = T)
+porto_train$ps_calc_01 <- factor(porto_train$ps_calc_01, ordered = T)
+porto_train$ps_calc_02 <- factor(porto_train$ps_calc_02, ordered = T)
+porto_train$ps_calc_03 <- factor(porto_train$ps_calc_03, ordered = T)
+porto_train$ps_calc_04 <- factor(porto_train$ps_calc_04, ordered = T)
+porto_train$ps_calc_05 <- factor(porto_train$ps_calc_05, ordered = T)
+porto_train$ps_calc_06 <- factor(porto_train$ps_calc_06, ordered = T)
+porto_train$ps_calc_07 <- factor(porto_train$ps_calc_07, ordered = T)
+porto_train$ps_calc_08 <- factor(porto_train$ps_calc_08, ordered = T)
+porto_train$ps_calc_09 <- factor(porto_train$ps_calc_09, ordered = T)
+porto_train$ps_calc_10 <- factor(porto_train$ps_calc_10, ordered = T)
+porto_train$ps_calc_11 <- factor(porto_train$ps_calc_11, ordered = T)
+porto_train$ps_calc_12 <- factor(porto_train$ps_calc_12, ordered = T)
+porto_train$ps_calc_13 <- factor(porto_train$ps_calc_13, ordered = T)
+porto_train$ps_calc_14 <- factor(porto_train$ps_calc_14, ordered = T)
+porto_train$ps_calc_15_bin <- factor(porto_train$ps_calc_15_bin)
+porto_train$ps_calc_16_bin <- factor(porto_train$ps_calc_16_bin)
+porto_train$ps_calc_17_bin <- factor(porto_train$ps_calc_17_bin)
+porto_train$ps_calc_18_bin <- factor(porto_train$ps_calc_18_bin)
+porto_train$ps_calc_19_bin <- factor(porto_train$ps_calc_19_bin)
+porto_train$ps_calc_20_bin <- factor(porto_train$ps_calc_20_bin)
 
 # Let's explore now each variable one by one
 
@@ -1096,41 +1116,434 @@ ggplot(as.data.frame(round(table(porto_train$ps_car_15)/length(porto_train$ps_ca
 summary(porto_train$ps_calc_01)
 # No missing values
 # Let's check how many different values it takes
+length(table(porto_train$ps_calc_01))
+# Only 10 different values, possibly a categorical ordinal variable
+table(porto_train$ps_calc_01)
+
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_01)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_01", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+round(100*table(porto_train$ps_calc_01)/dim(porto_train)[1], 2)
 
 # 41) Variable: ps_calc_02
 
+summary(porto_train$ps_calc_02)
+sum(is.na(porto_train$ps_calc_02))
+# This variable has no missing values
+# Let's see how many different values it takes
+length(table(porto_train$ps_calc_02))
+# Only 10 different categories, same case as above
+table(porto_train$ps_calc_02)
 
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_02)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_02", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+round(100*table(porto_train$ps_calc_02)/dim(porto_train)[1], 2)
+
+# Checking if the observations have the same proportions for each value of the previous variable
+round(100*table(porto_train$ps_calc_02[which(porto_train$ps_calc_01 == 0)])/length(porto_train$ps_calc_02[which(porto_train$ps_calc_01 == 0)]), 2)
+for (i in sort(unique(porto_train$ps_calc_02))) {
+  cat(paste(i, ":\n", sep = ""), 
+      round(100*table(porto_train$ps_calc_02[which(porto_train$ps_calc_01 == i)])/length(porto_train$ps_calc_02[which(porto_train$ps_calc_01 == i)]), 2), "\n")
+}
 # 42) Variable: ps_calc_03
+
+summary(porto_train$ps_calc_03)
+sum(is.na(porto_train$ps_calc_03))
+# This variable has no missing values
+# How many different values it takes?
+length(table(porto_train$ps_calc_03))
+# Only ten, so it must be an ordinal variable
+table(porto_train$ps_calc_03)
+# Has the same categories has the previous two variables
+round(100*table(porto_train$ps_calc_03)/dim(porto_train)[1], 2)
+
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_03)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_03", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
 
 
 # 43) Variable: ps_calc_04
 
+summary(porto_train$ps_calc_04)
+sum(is.na(porto_train$ps_calc_04))
+# This variable has no missing values.
+# How many different categories it takes?
+length(table(porto_train$ps_calc_04))
+# 6 different values, it is an ordinal variable.
+head(porto_train$ps_calc_04)
+
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_04)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_04", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+
+round(100*table(porto_train$ps_calc_04)/dim(porto_train)[1], 2)
+
+# Relative frequencies barplot
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_calc_04)/length(porto_train$ps_calc_04), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_04", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.5) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
 
 # 44) Variable: ps_calc_05
 
+summary(porto_train$ps_calc_05)
+sum(is.na(porto_train$ps_calc_05))
+# It has no missing values in this variable
+# How many different values it takes?
+length(table(porto_train$ps_calc_05))
+# Seven different categories, so it must be an ordinal variable.
+head(porto_train$ps_calc_05)
+table(porto_train$ps_calc_05)
+
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_calc_05)/length(porto_train$ps_calc_05), 3)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_05", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.5) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_05)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_05", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies
+round(100*table(porto_train$ps_calc_05)/dim(porto_train)[1], 2)
 
 # 45) Variable: ps_calc_06
 
+summary(porto_train$ps_calc_06)
+sum(is.na(porto_train$ps_calc_06))
+# This variable has no missing values
+# How many different values it takes?
+length(table(porto_train$ps_calc_06))
+# It takes eleven different values and no potfix so again is an ordinal variable
+table(porto_train$ps_calc_06)
+# Category 0 only takes one value and category 1 only takes 6.
+
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_06)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_06", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies
+round(100*table(porto_train$ps_calc_06)/dim(porto_train)[1], 2)
 
 # 46) Variable: ps_calc_07
 
+summary(porto_train$ps_calc_07)
+sum(is.na(porto_train$ps_calc_07))
+# This variable has no missing values.
+# How many different values it takes?
+length(table(porto_train$ps_calc_07))
+# 10 different values and no potfix, again we have an ordinal variable
+table(porto_train$ps_calc_07)
+# Values categories go from 0 to 9.
+
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_07)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_07", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+head(porto_train$ps_calc_07)
+
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_07)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_07", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies
+round(100*table(porto_train$ps_calc_07)/dim(porto_train)[1], 2)
 
 # 47) Variable: ps_calc_08
 
+summary(porto_train$ps_calc_08)
+sum(is.na(porto_train$ps_calc_08))
+# How many different values it takes?
+length(table(porto_train$ps_calc_08))
+# Eleven different values and no potfix, again it's an orinal variable.
+head(porto_train$ps_calc_08)
+
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_08)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_08", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies
+round(100*table(porto_train$ps_calc_08)/dim(porto_train)[1], 2)
 
 # 48) Variable: ps_calc_09
+
+summary(porto_train$ps_calc_09)
+sum(is.na(porto_train$ps_calc_09))
+# How many different values it takes?
+length(table(porto_train$ps_calc_09))
+head(porto_train$ps_calc_09)
+# Only 8 different values and no potfix, so again it's an ordinal variable.
+
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_09)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_09", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies
+round(100*table(porto_train$ps_calc_09)/dim(porto_train)[1], 2)
 
 
 # 49) Variable: ps_calc_10
 
+summary(porto_train$ps_calc_10)
+sum(is.na(porto_train$ps_calc_10))
+# How many different values it takes?
+length(table(porto_train$ps_calc_10))
+# 26 different values
+head(porto_train$ps_calc_10, 10)
+table(porto_train$ps_calc_10)
+
+# Relative frequencies
+round(100*table(porto_train$ps_calc_10)/dim(porto_train)[1], 2)
+
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_10)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_10", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+# Barplot looks like a normal distribution histogram. Plot it again without the frequency quotes.
+ggplot(as.data.frame(table(porto_train$ps_calc_10)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_10", x = "value") + theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies table
+print.data.frame(data.frame(category = names(sort(summary(porto_train$ps_calc_10), decreasing = T)),
+                            frequency = round(100*sort(summary(porto_train$ps_calc_10)/length(porto_train$ps_calc_10),
+                                                       decreasing = T), 2), row.names = NULL), row.names = F)
+
 
 # 50) Variable: ps_calc_11
+
+summary(porto_train$ps_calc_11)
+sum(is.na(porto_train$ps_calc_11))
+# How many different categories=
+length(table(porto_train$ps_calc_11))
+# Twenty different categroes
+table(porto_train$ps_calc_11)
+head(porto_train$ps_calc_11)
+# Seems like the same case as with the previous variable.
+hist(porto_train$ps_calc_11)
+barplot(table(porto_train$ps_calc_11))
+
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_11)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_11", x = "value") + theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies table
+print.data.frame(data.frame(category = names(sort(summary(porto_train$ps_calc_11), decreasing = T)),
+                            frequency = round(100*sort(summary(porto_train$ps_calc_11)/length(porto_train$ps_calc_11),
+                                                       decreasing = T), 2), row.names = NULL), row.names = F)
+
 
 
 # 51) Variable: ps_calc_12
 
+summary(porto_train$ps_calc_12)
+sum(is.na(porto_train$ps_calc_12))
+# How many different value it has?
+length(table(porto_train$ps_calc_12))
+# Eleven different values
+head(porto_train$ps_calc_12, 10)
+hist(porto_train$ps_calc_12)
+# Histogram looks more sparse than with the two previous variable
+barplot(table(porto_train$ps_calc_12))
+
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_12)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_12", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies
+round(100*table(porto_train$ps_calc_12)/dim(porto_train)[1], 2)
 
 # 52) Variable: ps_calc_13
 
+summary(porto_train$ps_calc_13)
+sum(is.na(porto_train$ps_calc_13))
+# No missing values present in the variable.
+# How many different values are in the varaible?
+length(table(porto_train$ps_calc_13))
+# 14 Different values, no postfix, again and ordinal variable.
+head(porto_train$ps_calc_13)
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_13)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_13", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies
+round(100*table(porto_train$ps_calc_13)/dim(porto_train)[1], 2)
+
+# Relative frequencies table
+print.data.frame(data.frame(category = names(sort(summary(porto_train$ps_calc_13), decreasing = T)),
+                            frequency = round(100*sort(summary(porto_train$ps_calc_13)/length(porto_train$ps_calc_13),
+                                                       decreasing = T), 2), row.names = NULL), row.names = F)
 
 # 53) Variable: ps_calc_14
+
+summary(porto_train$ps_calc_14)
+sum(is.na(porto_train$ps_calc_14))
+# No missing values
+# How many different values?
+length(unique(porto_train$ps_calc_14))
+# 24 unique values in the variable
+head(porto_train$ps_calc_14, 10)
+table(porto_train$ps_calc_14)
+# All are discrete, no postfix, again we have an ordinal variable.
+
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_14)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_14", x = "value") + theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies
+round(100*table(porto_train$ps_calc_14)/dim(porto_train)[1], 2)
+
+# Relative frequencies table
+print.data.frame(data.frame(category = names(sort(summary(porto_train$ps_calc_14), decreasing = T)),
+                            frequency = round(100*sort(summary(porto_train$ps_calc_14)/length(porto_train$ps_calc_14),
+                                                       decreasing = T), 2), row.names = NULL), row.names = F)
+
+
+# 54) Variable: ps_calc_15_bin
+
+summary(porto_train$ps_calc_15_bin)
+sum(is.na(porto_train$ps_calc_15_bin))
+# No missing values.
+# How many different values it takes?
+length(unique(porto_train$ps_calc_15_bin))
+head(porto_train$ps_calc_15_bin)
+
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_calc_15_bin)/length(porto_train$ps_calc_15_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_15_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.5) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+
+# 55) Variable: ps_calc_16_bin
+
+summary(porto_train$ps_calc_16_bin)
+sum(is.na(porto_train$ps_calc_16_bin))
+# No missing values.
+# How many different values it takes?
+length(unique(porto_train$ps_calc_16_bin))
+
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_calc_16_bin)/length(porto_train$ps_calc_16_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_16_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.5) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+
+# 56) Variable: ps_calc_17_bin
+
+summary(porto_train$ps_calc_17_bin)
+sum(is.na(porto_train$ps_calc_17_bin))
+# No missing values.
+# How many different values it takes?
+length(unique(porto_train$ps_calc_17_bin))
+
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_calc_17_bin)/length(porto_train$ps_calc_17_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_17_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.5) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+
+# 57) Variable: ps_calc_18_bin
+
+summary(porto_train$ps_calc_18_bin)
+sum(is.na(porto_train$ps_calc_18_bin))
+# No missing values.
+# How many different values it takes?
+length(unique(porto_train$ps_calc_18_bin))
+
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_calc_18_bin)/length(porto_train$ps_calc_18_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_18_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.5) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+
+# 58) Variable: ps_calc_19_bin
+
+summary(porto_train$ps_calc_19_bin)
+sum(is.na(porto_train$ps_calc_19_bin))
+# No missing values.
+# How many different values it takes?
+length(unique(porto_train$ps_calc_19_bin))
+
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_calc_19_bin)/length(porto_train$ps_calc_19_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_19_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.5) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+
+# 59) Variable: ps_calc_20_bin
+
+summary(porto_train$ps_calc_20_bin)
+sum(is.na(porto_train$ps_calc_20_bin))
+# No missing values.
+# How many different values it takes?
+length(unique(porto_train$ps_calc_20_bin))
+
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_calc_20_bin)/length(porto_train$ps_calc_20_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_20_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.5) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+

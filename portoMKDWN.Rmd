@@ -199,6 +199,26 @@ porto_train$ps_car_10_cat <- factor(porto_train$ps_car_10_cat)
 porto_train$ps_car_11_cat <- factor(porto_train$ps_car_11_cat)
 porto_train$ps_car_11 <- factor(porto_train$ps_car_11, ordered = T)
 porto_train$ps_car_15 <- factor(porto_train$ps_car_15, ordered = T)
+porto_train$ps_calc_01 <- factor(porto_train$ps_calc_01, ordered = T)
+porto_train$ps_calc_02 <- factor(porto_train$ps_calc_02, ordered = T)
+porto_train$ps_calc_03 <- factor(porto_train$ps_calc_03, ordered = T)
+porto_train$ps_calc_04 <- factor(porto_train$ps_calc_04, ordered = T)
+porto_train$ps_calc_05 <- factor(porto_train$ps_calc_05, ordered = T)
+porto_train$ps_calc_06 <- factor(porto_train$ps_calc_06, ordered = T)
+porto_train$ps_calc_07 <- factor(porto_train$ps_calc_07, ordered = T)
+porto_train$ps_calc_08 <- factor(porto_train$ps_calc_08, ordered = T)
+porto_train$ps_calc_09 <- factor(porto_train$ps_calc_09, ordered = T)
+porto_train$ps_calc_10 <- factor(porto_train$ps_calc_10, ordered = T)
+porto_train$ps_calc_11 <- factor(porto_train$ps_calc_11, ordered = T)
+porto_train$ps_calc_12 <- factor(porto_train$ps_calc_12, ordered = T)
+porto_train$ps_calc_13 <- factor(porto_train$ps_calc_13, ordered = T)
+porto_train$ps_calc_14 <- factor(porto_train$ps_calc_14, ordered = T)
+porto_train$ps_calc_15_bin <- factor(porto_train$ps_calc_15_bin)
+porto_train$ps_calc_16_bin <- factor(porto_train$ps_calc_16_bin)
+porto_train$ps_calc_17_bin <- factor(porto_train$ps_calc_17_bin)
+porto_train$ps_calc_18_bin <- factor(porto_train$ps_calc_18_bin)
+porto_train$ps_calc_19_bin <- factor(porto_train$ps_calc_19_bin)
+porto_train$ps_calc_20_bin <- factor(porto_train$ps_calc_20_bin)
 ```
 Now we're going to explore each one of the 59 variables to know a little more about them.\
 
@@ -980,4 +1000,451 @@ ggplot(as.data.frame(round(table(porto_train$ps_car_15)/length(porto_train$ps_ca
   labs(title = "Frequencies of variable ps_car_15", x = "value") + theme_classic() +
   geom_text(aes(label = Freq), hjust = -0.3) + 
   theme(plot.title = element_text(hjust = 0.5, face = "bold")) + coord_flip()
+```
+
+#### **40) Variable ps_calc_01:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_01))
+```
+This variable don't have missing values.
+```{r}
+head(porto_train$ps_calc_01)
+```
+This variable only takes 10 different values and don't have a potfix cat nor bin, so it must be taken has an ordinal one.
+```{r}
+# Relative frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_01)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_01", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+round(100*table(porto_train$ps_calc_01)/dim(porto_train)[1], 2)
+```
+
+As can be seen in the above plot, almost all ten different categories contain about a 10 % of the observations.
+
+#### **41) Variable ps_calc_02:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_02))
+```
+No missing values present in the variable.
+```{r}
+# Relative frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_02)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_02", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+round(100*table(porto_train$ps_calc_02)/dim(porto_train)[1], 2)
+```
+
+As with the previous variable, almost all 10 different categories contain about a 10 % of the total number of observations.
+
+Do proportions for this variable change or are the same for each category of the previous one?
+
+```{r}
+# Checking if the observations have the same proportions for each value of the previous variable
+for (i in sort(unique(porto_train$ps_calc_02))) {
+  cat(paste(i, ":\n", sep = ""), 
+      round(100*table(porto_train$ps_calc_02[which(porto_train$ps_calc_01 == i)])/length(porto_train$ps_calc_02[which(porto_train$ps_calc_01 == i)]), 2), "\n")
+}
+```
+The proportions of ps_calc_02 don't change (at least very significantly) when examined for each value of the variable ps_calc_01.
+
+#### **42) Variable ps_calc_03:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_03))
+```
+This variable has no missing values.
+```{r}
+length(table(porto_train$ps_calc_03))
+```
+It takes 10 different categories.
+```{r}
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_03)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_03", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+round(100*table(porto_train$ps_calc_03)/dim(porto_train)[1], 2)
+```
+Again all ten categories appear in about the 10 % of the observations.
+
+#### **43) Variable ps_calc_04:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_04))
+```
+This variable has no missing values.
+```{r}
+length(table(porto_train$ps_calc_04))
+head(porto_train$ps_calc_04)
+```
+It only takes 6 different values and has no potfix, so it must be an ordinal variable.
+```{r}
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_04)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_04", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+summary(porto_train$ps_calc_04)
+```
+
+As can be seen in the above plot, the most represented category in the variable is 2 with the 33 % of the observations nearly followed by the category 3 with the 29 % of the observations. The other categories obtain lesser percentages.
+
+#### **44) Variable ps_calc_05:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_05))
+```
+This variable has no missing values.
+```{r}
+length(table(porto_train$ps_calc_05))
+head(porto_train$ps_calc_05)
+```
+The variable has seven different categories and don't have any potfix, so we have another ordinal variable.
+```{r}
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_05)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_05", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies
+round(100*table(porto_train$ps_calc_05)/dim(porto_train)[1], 2)
+```
+The categories with more observations are 2 with almost the 33 % of them, followed by 1 with almost the 29 % and 3 with the 20 %.
+
+#### **45) Variable ps_calc_06:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_06))
+```
+This variable has no missing values.
+```{r}
+length(table(porto_train$ps_calc_06))
+head(porto_train$ps_calc_06)
+```
+This variable only takes eleven different values and has no potfix so it must be an ordinal one.
+```{r}
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_06)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_06", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies
+round(100*table(porto_train$ps_calc_06)/dim(porto_train)[1], 2)
+```
+The categories that have more observations are 8 with the 29 % of the observations, 7 with 24 % and 9 with 22 %. This variable have categories with an extremly low number of observations, since category 1 only have six observations and category 0 only has 1.
+
+#### **46) Variable ps_calc_07:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_07))
+```
+No missing values present.
+```{r}
+length(table(porto_train$ps_calc_07))
+head(porto_train$ps_calc_07)
+```
+The variable only takes 10 different values and has no potfix in it's name, so it must be an ordinal variable.
+```{r}
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_07)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_07", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies
+round(100*table(porto_train$ps_calc_07)/dim(porto_train)[1], 2)
+```
+As can be seen in the plot above, the category with more observations is 3 with the 27 %, next cames the category 2 with the 23 % and 4 with the 21 %. All other categories count with as much as 12 % of the observations.
+
+#### **47) Variable ps_calc_08:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_08))
+```
+The variable has no missing values.
+```{r}
+length(table(porto_train$ps_calc_08))
+head(porto_train$ps_calc_08)
+```
+Eleven different values and no potfix, again it's an orinal variable.
+```{r}
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_08)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_08", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies
+round(100*table(porto_train$ps_calc_08)/dim(porto_train)[1], 2)
+```
+
+In this case, 9 and 10 categories are the most observed in the variable, both occupy around the 25 % of the cases. Next are the categories 8 and 11 with a 17 % and a 15 % respectively.
+
+
+#### **48) Variable ps_calc_09:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_09))
+```
+No missing values in the variable.
+```{r}
+length(table(porto_train$ps_calc_09))
+head(porto_train$ps_calc_09)
+```
+Only 8 different values and no potfix, so again it's an ordinal variable.
+```{r}
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_09)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_09", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies
+round(100*table(porto_train$ps_calc_09)/dim(porto_train)[1], 2)
+
+```
+
+In this variable the category with more observations is the category 2 which accounts the 31 % of the observations. Next cames the category 3 with the 26 % of them and the category 1 with the 20 % of the observations. The rest of the observations obtain lesser porcentages.
+
+#### **49) Variable ps_calc_10:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_10))
+```
+No missing values in the variable.
+```{r}
+head(porto_train$ps_calc_10, 10)
+length(table(porto_train$ps_calc_10))
+```
+This variable takes 26 different values and again, has no postfix cat nor bin, so let's assume that is an ordinal one.
+```{r}
+# Barplot looks like a normal distribution histogram. Plot it again without the frequency quotes.
+ggplot(as.data.frame(table(porto_train$ps_calc_10)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_10", x = "value") + theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+print.data.frame(data.frame(category = names(sort(summary(porto_train$ps_calc_10), decreasing = T)),
+                            frequency = round(100*sort(summary(porto_train$ps_calc_10)/length(porto_train$ps_calc_10),
+                                                       decreasing = T), 2), row.names = NULL), row.names = F)
+
+```
+The above barplot looks like a familiar bell-shaped histogram which can confuse us leading to think that this variable is better suited as a continuous one, but we have to remain that there is no continuity between the bars.
+In the table below the plot, we can see that 8, 7 and 9 are the categories with more observations, all of them with a representation that rounds the 13 % of the size of the dataset.The relative frequencies of the resting categories decrease from this percentage in a "ladder form".
+
+#### **50) Variable ps_calc_11:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_11))
+```
+This variables has no missing values.
+```{r}
+head(porto_train$ps_calc_11, 10)
+length(table(porto_train$ps_calc_11))
+```
+This variable only takes 20 different values and has no postfix, so again we have an ordinal varaible.
+```{r}
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_11)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_11", x = "value") + theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies table
+print.data.frame(data.frame(category = names(sort(summary(porto_train$ps_calc_11), decreasing = T)),
+                            frequency = round(100*sort(summary(porto_train$ps_calc_11)/length(porto_train$ps_calc_11),
+                                                       decreasing = T), 2), row.names = NULL), row.names = F)
+```
+As with the previous variable, the barplot takes a bell-like shape with the most observed category being 5 with the 17 % observations followed by categories 4 and 6, both with around the 16 % of the observations, with all other percentages descending both ways in a ladder form.
+
+#### **51) Variable ps_calc_12:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_12))
+```
+No missing values in this variable.
+```{r}
+head(porto_train$ps_calc_12, 10)
+length(table(porto_train$ps_calc_12))
+```
+This variables takes only eleven different values and has no postfix cat nor bin, so once again we have an ordinal variable.
+```{r}
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_12)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_12", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies
+round(100*table(porto_train$ps_calc_12)/dim(porto_train)[1], 2)
+```
+This time the most observed category is the category 1 which accounts for the 34 % of the observations. Nex to it are the categories 2 and 1 both of them accounting approximately for about the 24 % of the total number of observations. In this variable are categories with very few representation, categories 6 through 10 contain less than the 1 % of the observations.
+
+#### **52) Variable ps_calc_13:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_13))
+```
+This variable has no missing values.
+```{r}
+head(porto_train$ps_calc_13, 10)
+length(table(porto_train$ps_calc_13))
+```
+This variable takes only 14 different values and has no postfix so, again, we have an ordinal varaible.
+```{r}
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_13)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_13", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.3) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies table
+print.data.frame(data.frame(category = names(sort(summary(porto_train$ps_calc_13), decreasing = T)),
+                            frequency = round(100*sort(summary(porto_train$ps_calc_13)/length(porto_train$ps_calc_13),
+                                                       decreasing = T), 2), row.names = NULL), row.names = F)
+```
+For this variable the most observed category is 2 with the 23 % of observations, followed by 3 with a 22 %. Next are 1 and 4 with another 16 % of observations each one. All the other categories account for less than a 10 % of observations. Categories 8 through 13 are specially scarce in observations since all of them sum up to less than a 1 % of the observations.
+
+#### **53) Variable ps_calc_14:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_14))
+```
+This variable has no missing values.
+```{r}
+head(porto_train$ps_calc_14, 10)
+length(unique(porto_train$ps_calc_14))
+```
+This variable takes 24 different values and has no potfix so it's another ordinal variable.
+```{r}
+# Absolute frequencies barplot
+ggplot(as.data.frame(table(porto_train$ps_calc_14)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_14", x = "value") + theme_classic() +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+# Relative frequencies table
+print.data.frame(data.frame(category = names(sort(summary(porto_train$ps_calc_14), decreasing = T)),
+                            frequency = round(100*sort(summary(porto_train$ps_calc_14)/length(porto_train$ps_calc_14),
+                                                       decreasing = T), 2), row.names = NULL), row.names = F)
+```
+In this case the category with more observations is 7 with around the 15 % of the observations, followed by 8 and 6 which each accounts for another 14 % of the observations. Again this barplot is bell-shaped, and the rest of categories descend their percentages in a ladder form by each side.
+
+#### **54) Variable ps_calc_15_bin:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_15_bin))
+```
+No missing values present in this variable.
+
+```{r}
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_calc_15_bin)/length(porto_train$ps_calc_15_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_15_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.5) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+As it's postfix indicates, this is a categorical binomial variable since it only takes two values. As we can see in the barplot, 88 % of the observations belong to the category 0 and 12 % to the category 1.
+
+#### **55) Variable ps_calc_16_bin:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_16_bin))
+```
+No missing values present in this variable.
+
+```{r}
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_calc_16_bin)/length(porto_train$ps_calc_16_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_16_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.5) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+#### **56) Variable ps_calc_17_bin:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_17_bin))
+```
+No missing values present in this variable.
+
+```{r}
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_calc_17_bin)/length(porto_train$ps_calc_17_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_17_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.5) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+#### **57) Variable ps_calc_18_bin:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_18_bin))
+```
+No missing values present in this variable.
+
+```{r}
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_calc_18_bin)/length(porto_train$ps_calc_18_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_18_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.5) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+#### **58) Variable ps_calc_19_bin:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_19_bin))
+```
+No missing values present in this variable.
+
+```{r}
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_calc_19_bin)/length(porto_train$ps_calc_19_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_19_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.5) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+```
+
+#### **59) Variable ps_calc_20_bin:**
+
+```{r}
+sum(is.na(porto_train$ps_calc_20_bin))
+```
+No missing values present in this variable.
+
+```{r}
+# Relative frequencies barplot
+ggplot(as.data.frame(round(table(porto_train$ps_calc_20_bin)/length(porto_train$ps_calc_20_bin), 2)),
+       aes(x = Var1, y = Freq)) + geom_bar(stat = "identity", color = "steelblue4", fill = "steelblue4") +
+  labs(title = "Frequencies of variable ps_calc_20_bin", x = "value") + theme_classic() +
+  geom_text(aes(label = Freq), vjust = -0.5) + 
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
 ```
